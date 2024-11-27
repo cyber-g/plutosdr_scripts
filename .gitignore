@@ -1,3 +1,9 @@
 # Exclude signals provided by IIO-OSC from this git repository
 signals/
 
+# Exclude token.txt
+token.txt
+
+# Exclude temporary local config file
+uri.local.env
+
