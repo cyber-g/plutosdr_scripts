@@ -1,0 +1,3 @@
+# Exclude signals provided by IIO-OSC from this git repository
+signals/
+
