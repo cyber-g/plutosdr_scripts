@@ -1,5 +1,6 @@
-# Exclude signals provided by IIO-OSC from this git repository
+# Exclude signals and filters provided by IIO-OSC from this git repository
 signals/
+filters/
 
 # Exclude token.txt
 token.txt
