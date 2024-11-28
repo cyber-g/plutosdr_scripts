@@ -23,3 +23,13 @@ curl --header "PRIVATE-TOKEN: $TOKEN" \
 https://gitlab.telecom-paris.fr/c2s/enseignement/smart-ics902/dpd-lab/-/raw/main/signals/LTE5_61p44Msps_PAR7p5dB.mat \
 -o signals/LTE5_61p44Msps_PAR7p5dB.mat
 
+# Get filters
+URL_BASE_FTR="https://github.com/analogdevicesinc/iio-oscilloscope/raw/refs/heads/main/filters/"
+FTRS="61_44_28MHz.ftr \
+        LTE20_MHz.ftr"
+
+mkdir -p filters
+for file in $FTRS; do
+    wget -c "$URL_BASE_FTR$file" -O filters/$file
+done
+
