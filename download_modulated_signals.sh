@@ -16,6 +16,13 @@ done
 
 ### Get protected signals
 
+# Test if token.txt exists
+if [ ! -f token.txt ]; then
+    echo "token.txt file not found. Fetching the files will fail."
+    # Wait user input to continue
+    read -p "Press enter to continue"
+fi
+
 # Load the access token stored in the file token.txt
 TOKEN=$(cat token.txt)
 # Project ID
