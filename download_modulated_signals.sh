@@ -18,10 +18,21 @@ done
 
 # Load the access token stored in the file token.txt
 TOKEN=$(cat token.txt)
-# Get the file from https://gitlab.telecom-paris.fr/c2s/enseignement/smart-ics902/dpd-lab/-/raw/main/signals/LTE5_61p44Msps_PAR7p5dB.mat
-curl --header "PRIVATE-TOKEN: $TOKEN" \
-https://gitlab.telecom-paris.fr/c2s/enseignement/smart-ics902/dpd-lab/-/raw/main/signals/LTE5_61p44Msps_PAR7p5dB.mat \
--o signals/LTE5_61p44Msps_PAR7p5dB.mat
+# Project ID
+PROJECT_ID=6463
+URL_BASE="https://gitlab.telecom-paris.fr/api/v4/projects/$PROJECT_ID/repository/files/"
+URL_POSTFIX="/raw?lfs=true&ref=main"
+FILE_DIR="signals/"
+FILES_PROTECTED="LTE5_61p44Msps_PAR7p5dB.mat \
+                    LTE5_30p72Msps_PAR7p5dB.mat"
+
+for file in $FILES_PROTECTED; do
+    ENCODED_FILE_PATH=$(echo -n "$FILE_DIR$file" | jq -sRr @uri)
+    echo curl --header "PRIVATE-TOKEN: $TOKEN" -o signals/$file "$URL_BASE$ENCODED_FILE_PATH$URL_POSTFIX"
+    curl --header "PRIVATE-TOKEN: $TOKEN" -o signals/$file "$URL_BASE$ENCODED_FILE_PATH$URL_POSTFIX"
+done
+# Get the file https://gitlab.telecom-paris.fr/c2s/enseignement/smart-ics902/dpd-lab/-/raw/main/signals/LTE5_61p44Msps_PAR7p5dB.mat
+
 
 # Get filters
 URL_BASE_FTR="https://github.com/analogdevicesinc/iio-oscilloscope/raw/refs/heads/main/filters/"
