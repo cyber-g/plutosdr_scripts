@@ -1,3 +1,5 @@
+#!/bin/bash
+
 URL_BASE="https://github.com/analogdevicesinc/iio-oscilloscope/raw/refs/heads/main/waveforms/"
 
 FILES="LTE10.mat \
