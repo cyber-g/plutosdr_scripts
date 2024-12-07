@@ -125,7 +125,8 @@ sdr = adi.Pluto(uri=uri_str)
 # tx_enabled_channels
 # tx_destroy_buffer()
 
-sdr.tx_destroy_buffer() # Stop any previous transmission
+# Disable DDS
+sdr.disable_dds()
 
 sdr.sample_rate = int(fs)
 sdr.rx_rf_bandwidth = int(rf_bandwidth)
@@ -191,5 +192,9 @@ if rx_capture:
 sdr.tx_destroy_buffer()
 print("Transmission terminated")
 
+# Stop the DDS - else, the previous command stops the DAC and switches to the DDS
+sdr.disable_dds()
+# The boards remains with DDS enabled, even if the script is terminated
+# disable_dds() should be always called at the end of any script
 
 input("Press Enter to exit...")
