@@ -84,11 +84,11 @@ fs = fs * 1e6
 rf_bandwidth = float(input("Enter the RF bandwidth to set on the Pluto (MHz): "))
 rf_bandwidth = rf_bandwidth * 1e6
 
-# Plot the signal spectrum
-plt.figure()
-plt.psd(np.squeeze(signal), Fs=fs)
-plt.title("Signal spectrum")
-plt.show(block=False)
+# # Plot the signal spectrum
+# plt.figure()
+# plt.psd(np.squeeze(signal), Fs=fs)
+# plt.title("Signal spectrum")
+# plt.show(block=False)
 
 # Ask the user to set the TX attenuation or to perform a sweep
 tx_attenuation_y_n = input("Do you want to set a TX attenuation gain (1) or perform a sweep (2)? ")
