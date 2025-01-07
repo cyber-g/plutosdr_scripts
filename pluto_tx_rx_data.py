@@ -29,7 +29,7 @@ import matplotlib.pyplot as plt
 import adi
 import time
 
-N_LEV_DAC = (2**14)-1 # Number of levels of the DAC
+N_LEV_DAC = 2**15 # Number of levels of the DAC
 # cf https://analogdevicesinc.github.io/pyadi-iio/buffers/index.html#cyclic-mode
 # or https://github.com/analogdevicesinc/pyadi-iio/blob/main/examples/pluto.py
 
@@ -74,8 +74,9 @@ else:
 
 # normalize the signal to have a maximum amplitude of I or Q set to 1
 signal = signal / np.max(np.abs([signal.real, signal.imag]))
-# normalize the signal to have a maximum amplitude of I or Q set to N_LEV_DAC
-signal = signal * N_LEV_DAC
+# normalize the signal to have a maximum amplitude of I or Q set to N_LEV_DAC/2
+# (The /2 is for some backoff for DAC linearity)
+signal = signal * N_LEV_DAC /2
 
 # Ask user for the sampling frequency
 fs = float(input("Enter the sampling frequency of the signal (MHz): "))
