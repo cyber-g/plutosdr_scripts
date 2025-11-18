@@ -72,9 +72,10 @@ else:
     # Convert to complex float
     signal = mat_dat[:,0] + 1j*mat_dat[:,1]
 
-# normalize the signal to have a maximum amplitude of I or Q set to 1
-signal = signal / np.max(np.abs([signal.real, signal.imag]))
-# normalize the signal to have a maximum amplitude of I or Q set to N_LEV_DAC/2
+# normalize the signal to have a maximum amplitude of 1
+# Please note, scaling with max I or Q actually saturates the DAC and creates glitches at RF output (2025-11-18)
+signal = signal / np.max(np.abs(signal))
+# normalize the signal to have a maximum amplitude set to N_LEV_DAC/2
 # (The /2 is for some backoff for DAC linearity)
 signal = signal * N_LEV_DAC /2
 
