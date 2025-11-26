@@ -32,8 +32,8 @@ PROJECT_ID=6463
 URL_BASE="https://gitlab.telecom-paris.fr/api/v4/projects/$PROJECT_ID/repository/files/"
 URL_POSTFIX="/raw?lfs=true&ref=main"
 FILE_DIR="signals/"
-FILES_PROTECTED="LTE5_61p44Msps_PAR7p5dB.mat \
-                    LTE5_30p72Msps_PAR7p5dB.mat"
+FILES_PROTECTED="LTE5_61p44Msps_PeakScaling0dBFS_PAR7p5dB.mat \
+                LTE5_30p72Msps_PeakScaling0dBFS_PAR7p5dB.mat"
 
 for file in $FILES_PROTECTED; do
     ENCODED_FILE_PATH=$(echo -n "$FILE_DIR$file" | jq -sRr @uri)
