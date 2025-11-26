@@ -29,7 +29,7 @@ import matplotlib.pyplot as plt
 import adi
 import time
 
-N_LEV_DAC = (2**14)-1 # Number of levels of the DAC
+N_LEV_DAC = 2**15 # Number of levels of the DAC
 # cf https://analogdevicesinc.github.io/pyadi-iio/buffers/index.html#cyclic-mode
 # or https://github.com/analogdevicesinc/pyadi-iio/blob/main/examples/pluto.py
 
@@ -72,10 +72,12 @@ else:
     # Convert to complex float
     signal = mat_dat[:,0] + 1j*mat_dat[:,1]
 
-# normalize the signal to have a maximum amplitude of I or Q set to 1
-signal = signal / np.max(np.abs([signal.real, signal.imag]))
-# normalize the signal to have a maximum amplitude of I or Q set to N_LEV_DAC
-signal = signal * N_LEV_DAC
+# normalize the signal to have a maximum amplitude of 1
+# Please note, scaling with max I or Q actually saturates the DAC and creates glitches at RF output (2025-11-18)
+signal = signal / np.max(np.abs(signal))
+# normalize the signal to have a maximum amplitude set to N_LEV_DAC/2
+# (The /2 is for some backoff for DAC linearity)
+signal = signal * N_LEV_DAC /2
 
 # Ask user for the sampling frequency
 fs = float(input("Enter the sampling frequency of the signal (MHz): "))
@@ -128,7 +130,7 @@ sdr = adi.Pluto(uri=uri_str)
 # Disable DDS
 sdr.disable_dds()
 
-sdr.sample_rate = int(fs)
+sdr.sample_rate = int(fs) # For unknown reasons, this temporarily enables RF and creates "glitches"
 sdr.rx_rf_bandwidth = int(rf_bandwidth)
 sdr.tx_rf_bandwidth = int(rf_bandwidth)
 sdr.tx_lo = int(2.4e9)
@@ -146,7 +148,7 @@ sdr.rx_buffer_size = 2*len(signal) # Set the buffer size to 2 times the signal l
 # if fs == 61.44e6:
 #     sdr.filter = "filters/61_44_28MHz.ftr" 
 # if fs == 30.72e6:
-#     sdr.filter = "filters/LTE20_MHz.ftr"
+#     sdr.filter = "filters/LTE20_MHz.ftr" # For unknown reasons, this temporarily enables RF and creates "glitches"
 # # This is disabled because the filter modifies significantly the signal
 
 # Transmit the signal
