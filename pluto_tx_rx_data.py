@@ -75,9 +75,10 @@ else:
 # normalize the signal to have a maximum amplitude of 1
 # Please note, scaling with max I or Q actually saturates the DAC and creates glitches at RF output (2025-11-18)
 signal = signal / np.max(np.abs(signal))
-# normalize the signal to have a maximum amplitude set to N_LEV_DAC/2
-# (The /2 is for some backoff for DAC linearity)
-signal = signal * N_LEV_DAC /2
+# The DAC accepts values between -2^15 and +2^15-1
+# Going beyond N_LEV_DAC/2 creates some distortions/clipping at the DAC output.
+# Thus, we scale the signal to N_LEV_DAC/2
+signal = signal * float(N_LEV_DAC) * 0.5
 
 # Ask user for the sampling frequency
 fs = float(input("Enter the sampling frequency of the signal (MHz): "))
